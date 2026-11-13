@@ -1,28 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
 <title>My Piano Pieces</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
-	<header class="main-header">
-
-		<div>
-			<h1>Piano Piece Tracker</h1>
-
-			<p>
-				Logged in as: <span th:text="${email}">user@email.com</span>
-			</p>
-		</div>
-
-		<form method="post" th:action="@{/logout}">
-			<input type="submit" value="Logout" class="logout-button">
-		</form>
-
-	</header>
+	<div th:replace="~{fragments :: backdrop}"></div>
+	<header th:replace="~{fragments :: appHeader(active='pieces', email=${email})}"></header>
 
 	<main class="main-container">
 
@@ -35,9 +24,9 @@
 					have already learned.</p>
 			</div>
 
-			<div>
+			<div class="page-heading-actions">
 				<a class="main-button" th:href="@{/dashboard}">Dashboard</a>
-				<a class="main-button" th:href="@{/practice}"> Start Practice </a> 
+				<a class="main-button" th:href="@{/practice}"> Start Practice </a>
 				<a id="addPianoPieceLink" class="main-button" th:href="@{/pieces/new}"> Add Piano Piece </a>
 				<a class="main-button" th:href="@{/goals}">Learning Goals</a>
 			</div>
@@ -55,52 +44,71 @@
 		<div class="empty-message"
 			th:if="${pieces == null || pieces.isEmpty()}">
 
+			<div class="empty-illustration" aria-hidden="true">
+				<svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect x="8" y="16" width="56" height="40" rx="8" stroke="currentColor" stroke-width="3"/>
+					<rect x="16" y="24" width="8" height="24" fill="currentColor"/>
+					<rect x="32" y="24" width="8" height="24" fill="currentColor"/>
+					<rect x="48" y="24" width="8" height="24" fill="currentColor"/>
+				</svg>
+			</div>
+
 			<h3>No piano pieces yet</h3>
 
 			<p>Click the Add Piano Piece button to add your first piece.</p>
 
 		</div>
 
-		<table th:if="${pieces != null && !pieces.isEmpty()}">
+		<div th:if="${pieces != null && !pieces.isEmpty()}">
 
-			<thead>
+			<div class="toolbar">
+				<input type="search" id="pieceSearch"
+					placeholder="Search by title, composer, or genre"
+					aria-label="Search piano pieces">
+				<div class="filter-pills" role="group" aria-label="Filter by status">
+					<button type="button" class="is-active" data-status-filter="all">All</button>
+					<button type="button" data-status-filter="want_to_learn">Want to Learn</button>
+					<button type="button" data-status-filter="learning">Learning</button>
+					<button type="button" data-status-filter="learned">Learned</button>
+				</div>
+			</div>
 
-				<tr>
-					<th>Title</th>
-					<th>Composer</th>
-					<th>Genre</th>
-					<th>Difficulty</th>
-					<th>Learning Status</th>
-					<th>Rating</th>
-					<th>Sheet Music</th>
-					<th>Actions</th>
-				</tr>
+			<div class="piece-grid stagger-in">
 
-			</thead>
+				<article class="piece-card" th:each="piece : ${pieces}"
+					data-piece-card
+					th:attr="data-title=${piece.title},
+						data-composer=${piece.composer.name},
+						data-genre=${piece.genre.displayName},
+						data-status=${piece.learningStatus}">
 
-			<tbody>
+					<div class="piece-card-top">
+						<div>
+							<h3 class="piece-title" th:text="${piece.title}">Ballade No. 3</h3>
+							<p class="piece-composer" th:text="${piece.composer.name}">Frédéric Chopin</p>
+						</div>
+						<span class="stars" th:attr="aria-label=${piece.rating + ' out of 5'}">
+							<span th:each="i : ${#numbers.sequence(1,5)}"
+								th:class="${i <= piece.rating} ? 'star filled' : 'star'">★</span>
+							<span class="visually-hidden" th:text="${piece.rating + '/5'}">5/5</span>
+						</span>
+					</div>
 
-				<tr th:each="piece : ${pieces}">
+					<div class="piece-meta">
+						<span class="badge" th:text="${piece.genre.displayName}">Ballade</span>
+						<span class="badge" th:classappend="'badge-' + ${piece.difficulty}"
+							th:text="${piece.difficulty}">Advanced</span>
+						<span class="badge" th:classappend="'badge-' + ${piece.learningStatus}"
+							th:text="${piece.learningStatus.displayName}">Learning</span>
+					</div>
 
-					<td th:text="${piece.title}">Ballade No. 3</td>
+					<div class="piece-actions action-links">
+						<a th:if="${piece.sheetMusicFileName != null}"
+							th:href="@{/pieces/sheet-music/{id}(id=${piece.id})}"
+							class="link-quiet" target="_blank"> Open PDF </a>
+						<span th:if="${piece.sheetMusicFileName == null}" class="badge"> No PDF </span>
 
-					<td th:text="${piece.composer.name}">Frédéric Chopin</td>
-
-					<td th:text="${piece.genre.name}">Ballade</td>
-
-					<td th:text="${piece.difficulty}">Advanced</td>
-
-					<td th:text="${piece.learningStatus.displayName}">Learning</td>
-
-					<td th:text="${piece.rating + '/5'}">5/5</td>
-
-					<td><a th:if="${piece.sheetMusicFileName != null}"
-						th:href="@{/pieces/sheet-music/{id}(id=${piece.id})}"
-						target="_blank"> Open PDF </a> <span
-						th:if="${piece.sheetMusicFileName == null}"> No PDF </span></td>
-
-					<td class="action-links"><a
-						th:href="@{/pieces/edit/{id}(id=${piece.id})}"> Edit </a>
+						<a th:href="@{/pieces/edit/{id}(id=${piece.id})}"> Edit </a>
 
 						<form method="post" class="delete-form"
 							th:action="@{/pieces/delete/{id}(id=${piece.id})}">
@@ -108,15 +116,23 @@
 							<input type="submit" value="Delete" class="delete-button"
 								onclick="return confirm('Are you sure you want to delete this piano piece?');">
 
-						</form></td>
+						</form>
+					</div>
 
-				</tr>
+				</article>
 
-			</tbody>
+			</div>
 
-		</table>
+			<div class="empty-message" data-filter-empty hidden>
+				<h3>No matching pieces</h3>
+				<p>Try another search or status filter.</p>
+			</div>
+
+		</div>
 
 	</main>
+
+	<script th:replace="~{fragments :: scripts}"></script>
 
 </body>
 </html>

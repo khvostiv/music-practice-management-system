@@ -113,9 +113,10 @@ public class HomeController {
 	}
 
 	@GetMapping("/pieces/new")
-	public String newPiece(Model model) {
+	public String newPiece(Authentication authentication, Model model) {
 
 		model.addAttribute("pianoPiece", new PianoPiece());
+		model.addAttribute("email", authentication.getName());
 		addPieceFormInformation(model);
 
 		return "piece-form";
@@ -140,6 +141,7 @@ public class HomeController {
 
 		PianoPiece pianoPiece = pianoPieceService.findByIdAndUser(id, authentication.getName());
 		model.addAttribute("pianoPiece", pianoPiece);
+		model.addAttribute("email", authentication.getName());
 		addPieceFormInformation(model);
 
 		return "piece-form";

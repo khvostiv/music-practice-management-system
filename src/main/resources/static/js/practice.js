@@ -1,9 +1,30 @@
 /**
- * 
+ * Practice timer for the studio page.
  */
 let timerInterval;
 let elapsedSeconds = 0;
 let practiceStarted = false;
+
+function setTimerState(running) {
+	const stage = document.querySelector(".timer-stage");
+	const form = document.getElementById("practiceForm");
+
+	if (stage) {
+		stage.classList.toggle("is-running", running);
+		stage.classList.toggle("is-idle", !running);
+	}
+
+	if (form) {
+		form.classList.toggle("practice-active", running);
+	}
+
+	const hint = document.getElementById("timerHint");
+	if (hint) {
+		hint.textContent = running
+			? "Timer running — keep going, then stop to save your session."
+			: "Choose a piece, press start, and the studio clock will keep time for you.";
+	}
+}
 
 function startPractice() {
 
@@ -12,9 +33,12 @@ function startPractice() {
 
 	if (pianoPiece.value === "") {
 		alert("Please select a piano piece.");
+		pianoPiece.focus();
+		pianoPiece.classList.add("is-invalid");
 		return;
 	}
 
+	pianoPiece.classList.remove("is-invalid");
 	practiceStarted = true;
 	elapsedSeconds = 0;
 
@@ -31,6 +55,7 @@ function startPractice() {
 		false;
 
 	pianoPiece.disabled = true;
+	setTimerState(true);
 
 	timerInterval = setInterval(function() {
 
@@ -74,6 +99,7 @@ function stopPractice() {
 	document.getElementById("pianoPieceId").disabled =
 		false;
 
+	setTimerState(false);
 	return true;
 }
 
@@ -108,3 +134,13 @@ function formatDateTime(date) {
 		+ ":"
 		+ seconds;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+	const pieceSelect = document.getElementById("pianoPieceId");
+	if (pieceSelect) {
+		pieceSelect.addEventListener("change", function () {
+			pieceSelect.classList.toggle("is-invalid", pieceSelect.value === "");
+		});
+	}
+	setTimerState(false);
+});

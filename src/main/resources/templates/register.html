@@ -1,41 +1,75 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
 <title>Register - Piano Piece Tracker</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body class="auth-page">
 
-	<div class="auth-container">
+	<div th:replace="~{fragments :: backdrop}"></div>
 
-		<h1>Piano Piece Tracker</h1>
-		<h2>Create an Account</h2>
+	<div class="auth-shell">
 
-		<p class="page-description">Register to begin tracking your piano
-			pieces.</p>
+		<section class="auth-hero">
+			<div>
+				<p class="auth-kicker">Start practising with intention</p>
+				<h1>Build a repertoire you can actually finish.</h1>
+				<p>Create an account to track what you want to learn, time your
+					sessions, and watch goals fill in as the minutes add up.</p>
+			</div>
+			<div class="piano-keys" aria-hidden="true">
+				<span></span><span></span><span></span><span></span><span></span>
+				<span></span><span></span><span></span><span></span><span></span>
+			</div>
+		</section>
 
-		<p class="error-message" th:if="${registrationError != null}"
-			th:text="${registrationError}"></p>
+		<section class="auth-panel">
+			<div class="auth-container">
 
-		<form method="post" th:action="@{/register}"
-			th:object="${authenticationRequest}">
+				<h1>Piano Piece Tracker</h1>
+				<h2>Create an Account</h2>
 
-			<label for="email">Email:</label> <input type="email" id="email"
-				th:field="*{email}" placeholder="Enter your email" required>
+				<p class="page-description">Register to begin tracking your piano
+					pieces.</p>
 
-			<label for="password">Password:</label> <input type="password"
-				id="password" th:field="*{password}" placeholder="Create a password"
-				required> <input type="submit" value="Register">
+				<p class="error-message" th:if="${registrationError != null}"
+					th:text="${registrationError}"></p>
 
-		</form>
+				<form method="post" th:action="@{/register}"
+					th:object="${authenticationRequest}">
 
-		<p class="auth-link">
-			Already have an account? <a th:href="@{/login}">Login here</a>
-		</p>
+					<div class="field-group">
+						<label for="email">Email:</label>
+						<input type="email" id="email" th:field="*{email}"
+							placeholder="Enter your email" autocomplete="email" required>
+					</div>
 
+					<div class="field-group password-field">
+						<label for="password">Password:</label>
+						<input type="password" id="password" th:field="*{password}"
+							placeholder="Create a password" autocomplete="new-password"
+							required>
+						<button type="button" class="password-toggle"
+							data-password-toggle="password" aria-label="Show password">Show</button>
+					</div>
+
+					<input type="submit" value="Register">
+
+				</form>
+
+				<p class="auth-link">
+					Already have an account? <a th:href="@{/login}">Login here</a>
+				</p>
+
+			</div>
+		</section>
 	</div>
+
+	<script th:replace="~{fragments :: scripts}"></script>
 
 </body>
 </html>

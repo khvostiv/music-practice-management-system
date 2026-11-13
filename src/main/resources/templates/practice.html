@@ -1,42 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
 <title>Practice Timer</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-	<header class="main-header">
-	
-		<div>
-			<h1>Piano Piece Tracker</h1>
-	
-			<p>
-				Logged in as:
-				<span th:text="${email}">user@email.com</span>
-			</p>
+	<div th:replace="~{fragments :: backdrop}"></div>
+	<header th:replace="~{fragments :: appHeader(active='practice', email=${email})}"></header>
+
+	<main class="main-container">
+
+		<div class="page-heading">
+			<div>
+				<h2>Practice Timer</h2>
+				<p>Select a piano piece and start your practice session.</p>
+			</div>
+			<div class="page-heading-actions">
+				<a class="main-button" th:href="@{/practice/history}">Practice History</a>
+			</div>
 		</div>
-	
-		<div>
-	
-			<a th:href="@{/practice/history}" class="header-link">
-				Practice History
-			</a>
-	
-			<a th:href="@{/pieces}" class="header-link">
-				Back to My Pieces
-			</a>
-	
-		</div>
-	
-	</header>
-
-	<main class="form-container">
-
-		<h2>Practice Timer</h2>
-
-		<p>Select a piano piece and start your practice session.</p>
 
 		<p class="success-message" th:if="${param.created}">Practice
 			session was saved successfully.</p>
@@ -55,34 +41,50 @@
 
 		<form method="post" th:action="@{/practice/save}"
 			th:object="${practiceSessionRequest}"
+			id="practiceForm"
 			onsubmit="return stopPractice()"
 			th:if="${pieces != null && !pieces.isEmpty()}">
 
-			<label for="pianoPieceId">Piano Piece:</label> <select
-				id="pianoPieceId" th:field="*{pianoPieceId}" required>
+			<div class="practice-layout">
 
-				<option value="">Select a piano piece</option>
+				<div>
+					<div class="field-group">
+						<label for="pianoPieceId">Piano Piece:</label>
+						<select id="pianoPieceId" th:field="*{pianoPieceId}" required>
+							<option value="">Select a piano piece</option>
+							<option th:each="piece : ${pieces}" th:value="${piece.id}"
+								th:text="${piece.title}">Clair de Lune</option>
+						</select>
+					</div>
 
-				<option th:each="piece : ${pieces}" th:value="${piece.id}"
-					th:text="${piece.title}">Clair de Lune</option>
+					<div class="field-group">
+						<label for="notes">Practice Notes:</label>
+						<textarea id="notes" th:field="*{notes}" rows="5"
+							placeholder="What did you practise today?"></textarea>
+					</div>
+				</div>
 
-			</select> <label for="notes">Practice Notes:</label>
+				<div class="timer-stage is-idle">
+					<div class="timer-orbit">
+						<div class="timer-ring" aria-hidden="true"></div>
+						<h2 id="timer">00:00:00</h2>
+					</div>
+					<p class="timer-hint" id="timerHint">Choose a piece, press start, and the studio clock will keep time for you.</p>
+				</div>
 
-			<textarea id="notes" th:field="*{notes}" rows="5"
-				placeholder="What did you practise today?"></textarea>
+			</div>
 
 			<input type="hidden" id="startedAt" th:field="*{startedAt}">
 
 			<input type="hidden" id="endedAt" th:field="*{endedAt}">
 
-			<h2 id="timer">00:00:00</h2>
-
 			<div class="form-buttons">
 
 				<input type="button" id="startButton" value="Start Practice"
-					onclick="startPractice()"> <input type="submit"
-					id="stopButton" value="Stop and Save" disabled> <a
-					th:href="@{/pieces}" class="cancel-button"> Cancel </a>
+					onclick="startPractice()">
+				<input type="submit"
+					id="stopButton" value="Stop and Save" disabled>
+				<a th:href="@{/pieces}" class="cancel-button"> Cancel </a>
 
 			</div>
 
@@ -91,6 +93,7 @@
 	</main>
 
 	<script th:src="@{/js/practice.js}"></script>
+	<script th:replace="~{fragments :: scripts}"></script>
 
 </body>
 </html>

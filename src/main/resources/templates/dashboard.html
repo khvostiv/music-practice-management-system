@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
 <title>Practice Dashboard</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
-	<header class="main-header">
-		<div>
-			<h1>Piano Piece Tracker</h1>
-			<p>
-				Logged in as: <span th:text="${email}">user@email.com</span>
-			</p>
-		</div>
-
-		<a th:href="@{/pieces}" class="header-link">Back to My Pieces</a>
-	</header>
+	<div th:replace="~{fragments :: backdrop}"></div>
+	<header th:replace="~{fragments :: appHeader(active='dashboard', email=${email})}"></header>
 
 	<main class="main-container">
 
@@ -28,49 +22,93 @@
 					goals.</p>
 			</div>
 
-			<div>
-				<a class="main-button" th:href="@{/practice}">Start Practice</a> <a
-					class="main-button" th:href="@{/goals}">Learning Goals</a>
+			<div class="page-heading-actions">
+				<a class="main-button" th:href="@{/practice}">Start Practice</a>
+				<a class="main-button" th:href="@{/goals}">Learning Goals</a>
 			</div>
 		</div>
 
-		<div class="dashboard-grid">
+		<div class="dashboard-grid stagger-in">
 
 			<div class="dashboard-card">
+				<div class="card-icon" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+						<path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					</svg>
+				</div>
 				<h3>Total Piano Pieces</h3>
-				<p th:text="${dashboard.totalPianoPieces}">0</p>
+				<p class="stat-value" data-count th:attr="data-count=${dashboard.totalPianoPieces}"
+					th:text="${dashboard.totalPianoPieces}">0</p>
 			</div>
 
 			<div class="dashboard-card">
+				<div class="card-icon" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/>
+						<path d="M12 8v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					</svg>
+				</div>
 				<h3>Practice Sessions</h3>
-				<p th:text="${dashboard.totalPracticeSessions}">0</p>
+				<p class="stat-value" data-count th:attr="data-count=${dashboard.totalPracticeSessions}"
+					th:text="${dashboard.totalPracticeSessions}">0</p>
 			</div>
 
 			<div class="dashboard-card">
+				<div class="card-icon" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<path d="M4 17V7m6 10V4m6 13v-8m6 8H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					</svg>
+				</div>
 				<h3>Total Practice Time</h3>
-				<p th:text="${dashboard.totalPracticeMinutes + ' minutes'}">0
-					minutes</p>
+				<p>
+					<span class="stat-value" data-count th:attr="data-count=${dashboard.totalPracticeMinutes}"
+						th:text="${dashboard.totalPracticeMinutes}">0</span>
+					<span class="stat-unit">minutes</span>
+				</p>
 			</div>
 
 			<div class="dashboard-card">
+				<div class="card-icon" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/>
+						<circle cx="12" cy="12" r="3" fill="currentColor"/>
+					</svg>
+				</div>
 				<h3>Active Goals</h3>
-				<p th:text="${dashboard.activeGoals}">0</p>
+				<p class="stat-value" data-count th:attr="data-count=${dashboard.activeGoals}"
+					th:text="${dashboard.activeGoals}">0</p>
 			</div>
 
 			<div class="dashboard-card">
+				<div class="card-icon" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</div>
 				<h3>Completed Goals</h3>
-				<p th:text="${dashboard.completedGoals}">0</p>
+				<p class="stat-value" data-count th:attr="data-count=${dashboard.completedGoals}"
+					th:text="${dashboard.completedGoals}">0</p>
 			</div>
 
-			<div class="dashboard-card">
+			<div class="dashboard-card featured-stat">
+				<div class="card-icon" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<path d="M8 18V8l10-2v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						<circle cx="6.5" cy="18" r="2.5" fill="currentColor"/>
+						<circle cx="16.5" cy="16" r="2.5" fill="currentColor"/>
+					</svg>
+				</div>
 				<h3>Most Practised Piece</h3>
-				<p th:text="${dashboard.mostPracticedPiece}">No practice
+				<p class="featured-copy" th:text="${dashboard.mostPracticedPiece}">No practice
 					sessions yet</p>
 			</div>
 
 		</div>
 
 	</main>
+
+	<script th:replace="~{fragments :: scripts}"></script>
 
 </body>
 </html>

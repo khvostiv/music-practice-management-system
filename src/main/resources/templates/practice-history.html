@@ -1,26 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
 <title>Practice History</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
-	<header class="main-header">
-
-		<div>
-			<h1>Piano Piece Tracker</h1>
-
-			<p>
-				Logged in as: <span th:text="${email}">user@email.com</span>
-			</p>
-		</div>
-
-		<a th:href="@{/pieces}" class="header-link"> Back to My Pieces </a>
-
-	</header>
+	<div th:replace="~{fragments :: backdrop}"></div>
+	<header th:replace="~{fragments :: appHeader(active='history', email=${email})}"></header>
 
 	<main class="main-container">
 
@@ -49,7 +40,8 @@
 
 		</div>
 
-		<table th:if="${sessions != null && !sessions.isEmpty()}">
+		<div class="table-wrap" th:if="${sessions != null && !sessions.isEmpty()}">
+		<table>
 
 			<thead>
 
@@ -64,54 +56,60 @@
 
 			</thead>
 
-			<tbody>
-			
+			<tbody class="stagger-in">
+
 				<tr th:each="practiceSession : ${sessions}">
-			
+
 					<td th:text="${practiceSession.pianoPieceTitle}">
 						Clair de Lune
 					</td>
-			
-					<td th:text="${practiceSession.startedAt}">
+
+					<td th:text="${#temporals.format(practiceSession.startedAt, 'MMM d, yyyy h:mm a')}">
 						2026-07-30T12:00
 					</td>
-			
-					<td th:text="${practiceSession.endedAt}">
+
+					<td th:text="${#temporals.format(practiceSession.endedAt, 'MMM d, yyyy h:mm a')}">
 						2026-07-30T12:30
 					</td>
-			
-					<td th:text="${practiceSession.durationSeconds + ' seconds'}">
-						1800 seconds
+
+					<td>
+						<span class="duration-pill"
+							th:text="${(practiceSession.durationSeconds / 60) + 'm ' + (practiceSession.durationSeconds % 60) + 's'}">
+							30m 0s
+						</span>
 					</td>
-			
-					<td th:text="${practiceSession.notes == null || practiceSession.notes.isEmpty()
+
+					<td class="notes-cell" th:text="${practiceSession.notes == null || practiceSession.notes.isEmpty()
 						? 'No notes'
 						: practiceSession.notes}">
 						No notes
 					</td>
-			
+
 					<td class="action-links">
-			
+
 						<form method="post"
 							class="delete-form"
 							th:action="@{/practice/history/delete/{id}(id=${practiceSession.id})}">
-			
+
 							<input type="submit"
 								value="Delete"
 								class="delete-button"
 								onclick="return confirm('Are you sure you want to delete this practice session?');">
-			
+
 						</form>
-			
+
 					</td>
-			
+
 				</tr>
-			
+
 			</tbody>
 
 		</table>
+		</div>
 
 	</main>
+
+	<script th:replace="~{fragments :: scripts}"></script>
 
 </body>
 </html>

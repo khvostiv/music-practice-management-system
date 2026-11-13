@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
 <title>Learning Goals</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
-	<header class="main-header">
-		<div>
-			<h1>Piano Piece Tracker</h1>
-			<p>
-				Logged in as: <span th:text="${email}">user@email.com</span>
-			</p>
-		</div>
-
-		<a th:href="@{/pieces}" class="header-link">Back to My Pieces</a>
-	</header>
+	<div th:replace="~{fragments :: backdrop}"></div>
+	<header th:replace="~{fragments :: appHeader(active='goals', email=${email})}"></header>
 
 	<main class="main-container">
 
@@ -37,109 +31,122 @@
 		<p class="success-message" th:if="${param.deleted}">Learning goal
 			was deleted successfully.</p>
 
-		<div class="form-container"
-			th:if="${pieces != null && !pieces.isEmpty()}">
+		<div class="goal-layout">
 
-			<h2>Create Learning Goal</h2>
+			<div class="panel"
+				th:if="${pieces != null && !pieces.isEmpty()}">
 
-			<form method="post" th:action="@{/goals/save}"
-				th:object="${learningGoalRequest}">
+				<h2>Create Learning Goal</h2>
 
-				<label for="pianoPieceId">Piano Piece:</label> <select
-					id="pianoPieceId" th:field="*{pianoPieceId}" required>
+				<form method="post" th:action="@{/goals/save}"
+					th:object="${learningGoalRequest}">
 
-					<option value="">Select a piano piece</option>
+					<div class="field-group">
+						<label for="pianoPieceId">Piano Piece:</label>
+						<select id="pianoPieceId" th:field="*{pianoPieceId}" required>
+							<option value="">Select a piano piece</option>
+							<option th:each="piece : ${pieces}" th:value="${piece.id}"
+								th:text="${piece.title}">Clair de Lune</option>
+						</select>
+					</div>
 
-					<option th:each="piece : ${pieces}" th:value="${piece.id}"
-						th:text="${piece.title}">Clair de Lune</option>
+					<div class="field-group">
+						<label for="targetMinutes">Target Minutes:</label>
+						<input type="number" id="targetMinutes" th:field="*{targetMinutes}"
+							min="1" placeholder="Enter target practice minutes" required>
+					</div>
 
-				</select> <label for="targetMinutes">Target Minutes:</label> <input
-					type="number" id="targetMinutes" th:field="*{targetMinutes}"
-					min="1" placeholder="Enter target practice minutes" required>
+					<div class="field-group">
+						<label for="deadline">Deadline:</label>
+						<input type="date" id="deadline" th:field="*{deadline}" required>
+					</div>
 
-				<label for="deadline">Deadline:</label> <input type="date"
-					id="deadline" th:field="*{deadline}" required> <input
-					type="submit" value="Create Goal">
+					<input type="submit" value="Create Goal">
 
-			</form>
+				</form>
+
+			</div>
+
+			<div class="empty-message"
+				th:if="${pieces == null || pieces.isEmpty()}">
+
+				<h3>No piano pieces available</h3>
+
+				<p>Add a piano piece before creating a learning goal.</p>
+
+				<a th:href="@{/pieces/new}" class="main-button"> Add Piano Piece
+				</a>
+
+			</div>
+
+			<div>
+				<div class="empty-message" th:if="${goals == null || goals.isEmpty()}">
+
+					<h3>No learning goals yet</h3>
+
+					<p>Create your first learning goal using the form above.</p>
+
+				</div>
+
+				<div class="goal-list stagger-in"
+					th:if="${goals != null && !goals.isEmpty()}">
+
+					<article class="goal-card"
+						th:each="goal : ${goals}"
+						th:classappend="${goal.completed} ? ' is-complete'">
+
+						<div class="goal-head">
+							<div>
+								<h3 th:text="${goal.pianoPieceTitle}">Clair de Lune</h3>
+								<p class="goal-meta">
+									<span th:text="${#temporals.format(goal.deadline, 'MMM d, yyyy')}">Aug 20, 2026</span>
+									<span class="badge"
+										th:text="${goal.completed ? 'Completed' : 'In Progress'}">
+										In Progress</span>
+								</p>
+							</div>
+						</div>
+
+						<div class="meter" role="progressbar"
+							th:attr="aria-valuenow=${goal.practicedMinutes}, aria-valuemax=${goal.targetMinutes}">
+							<div class="meter-fill"
+								th:style="|width: ${goal.targetMinutes == 0 ? 0 : (goal.practicedMinutes * 100.0 / goal.targetMinutes > 100 ? 100 : goal.practicedMinutes * 100.0 / goal.targetMinutes)}%|"></div>
+						</div>
+
+						<p class="goal-meta">
+							<span th:text="${goal.practicedMinutes + ' minutes practised'}">30 minutes practised</span>
+							<span th:text="${'Target ' + goal.targetMinutes + ' minutes'}">Target 100 minutes</span>
+						</p>
+
+						<div class="action-links">
+
+							<form method="post" class="delete-form" th:if="${!goal.completed}"
+								th:action="@{/goals/complete/{id}(id=${goal.id})}">
+
+								<input type="submit" value="Complete" class="main-button">
+
+							</form>
+
+							<form method="post" class="delete-form"
+								th:action="@{/goals/delete/{id}(id=${goal.id})}">
+
+								<input type="submit" value="Delete" class="delete-button"
+									onclick="return confirm('Are you sure you want to delete this learning goal?');">
+
+							</form>
+
+						</div>
+
+					</article>
+
+				</div>
+			</div>
 
 		</div>
-
-		<div class="empty-message"
-			th:if="${pieces == null || pieces.isEmpty()}">
-
-			<h3>No piano pieces available</h3>
-
-			<p>Add a piano piece before creating a learning goal.</p>
-
-			<a th:href="@{/pieces/new}" class="main-button"> Add Piano Piece
-			</a>
-
-		</div>
-
-		<div class="empty-message" th:if="${goals == null || goals.isEmpty()}">
-
-			<h3>No learning goals yet</h3>
-
-			<p>Create your first learning goal using the form above.</p>
-
-		</div>
-
-		<table th:if="${goals != null && !goals.isEmpty()}">
-
-			<thead>
-				<tr>
-					<th>Piano Piece</th>
-					<th>Progress</th>
-					<th>Target</th>
-					<th>Deadline</th>
-					<th>Status</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-
-			<tbody>
-
-				<tr th:each="goal : ${goals}">
-
-					<td th:text="${goal.pianoPieceTitle}">Clair de Lune</td>
-
-					<td th:text="${goal.practicedMinutes + ' minutes'}">30 minutes
-					</td>
-
-					<td th:text="${goal.targetMinutes + ' minutes'}">100 minutes</td>
-
-					<td th:text="${goal.deadline}">2026-08-20</td>
-
-					<td th:text="${goal.completed ? 'Completed' : 'In Progress'}">
-						In Progress</td>
-
-					<td class="action-links">
-
-						<form method="post" class="delete-form" th:if="${!goal.completed}"
-							th:action="@{/goals/complete/{id}(id=${goal.id})}">
-
-							<input type="submit" value="Complete" class="main-button">
-
-						</form>
-
-						<form method="post" class="delete-form"
-							th:action="@{/goals/delete/{id}(id=${goal.id})}">
-
-							<input type="submit" value="Delete" class="delete-button"
-								onclick="return confirm('Are you sure you want to delete this learning goal?');">
-
-						</form>
-
-					</td>
-
-				</tr>
-
-			</tbody>
-
-		</table>
 
 	</main>
+
+	<script th:replace="~{fragments :: scripts}"></script>
 
 </body>
 </html>
