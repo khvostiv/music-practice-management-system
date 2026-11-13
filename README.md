@@ -70,4 +70,13 @@ docs/                           GitHub Pages preview
 
 ## GitHub Pages
 
-The `docs/` folder is a static copy of the studio so the design can be opened without starting Spring Boot. GitHub Pages is enabled from `main` using that folder (and a deploy workflow).
+The `docs/` folder is a static copy of the studio so the design can be opened without starting Spring Boot.
+
+GitHub has to be told once where the site lives (an automation token cannot turn Pages on for this repo). In the repository:
+
+1. Open **Settings → Pages**
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**
+3. Set **Branch** to `main` and the folder to `/docs`
+4. Click **Save**
+
+After a minute the app is at [https://khvostiv.github.io/music-practice-management-system/](https://khvostiv.github.io/music-practice-management-system/) and the README page is at [https://khvostiv.github.io/music-practice-management-system/readme.html](https://khvostiv.github.io/music-practice-management-system/readme.html).
