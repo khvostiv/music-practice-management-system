@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Register - Piano Piece Tracker</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-page">
+
+	<div class="auth-container">
+
+		<h1>Piano Piece Tracker</h1>
+		<h2>Create an Account</h2>
+
+		<p class="page-description">Register to begin tracking your piano
+			pieces.</p>
+
+		<p class="error-message" th:if="${registrationError != null}"
+			th:text="${registrationError}"></p>
+
+		<form method="post" th:action="@{/register}"
+			th:object="${authenticationRequest}">
+
+			<label for="email">Email:</label> <input type="email" id="email"
+				th:field="*{email}" placeholder="Enter your email" required>
+
+			<label for="password">Password:</label> <input type="password"
+				id="password" th:field="*{password}" placeholder="Create a password"
+				required> <input type="submit" value="Register">
+
+		</form>
+
+		<p class="auth-link">
+			Already have an account? <a th:href="@{/login}">Login here</a>
+		</p>
+
+	</div>
+
+</body>
+</html>

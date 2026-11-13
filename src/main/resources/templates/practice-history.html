@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Practice History</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+	<header class="main-header">
+
+		<div>
+			<h1>Piano Piece Tracker</h1>
+
+			<p>
+				Logged in as: <span th:text="${email}">user@email.com</span>
+			</p>
+		</div>
+
+		<a th:href="@{/pieces}" class="header-link"> Back to My Pieces </a>
+
+	</header>
+
+	<main class="main-container">
+
+		<div class="page-heading">
+
+			<div>
+				<h2>Practice History</h2>
+
+				<p>View your completed piano practice sessions.</p>
+			</div>
+
+			<a class="main-button" th:href="@{/practice}"> Start Practice </a>
+
+		</div>
+
+		<p class="success-message" th:if="${param.deleted}">Practice
+			session was deleted successfully.</p>
+
+		<div class="empty-message"
+			th:if="${sessions == null || sessions.isEmpty()}">
+
+			<h3>No practice sessions yet</h3>
+
+			<p>Click the Start Practice button to complete your first
+				practice session.</p>
+
+		</div>
+
+		<table th:if="${sessions != null && !sessions.isEmpty()}">
+
+			<thead>
+
+				<tr>
+					<th>Piano Piece</th>
+					<th>Started At</th>
+					<th>Ended At</th>
+					<th>Duration</th>
+					<th>Notes</th>
+					<th>Actions</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+			
+				<tr th:each="practiceSession : ${sessions}">
+			
+					<td th:text="${practiceSession.pianoPieceTitle}">
+						Clair de Lune
+					</td>
+			
+					<td th:text="${practiceSession.startedAt}">
+						2026-07-30T12:00
+					</td>
+			
+					<td th:text="${practiceSession.endedAt}">
+						2026-07-30T12:30
+					</td>
+			
+					<td th:text="${practiceSession.durationSeconds + ' seconds'}">
+						1800 seconds
+					</td>
+			
+					<td th:text="${practiceSession.notes == null || practiceSession.notes.isEmpty()
+						? 'No notes'
+						: practiceSession.notes}">
+						No notes
+					</td>
+			
+					<td class="action-links">
+			
+						<form method="post"
+							class="delete-form"
+							th:action="@{/practice/history/delete/{id}(id=${practiceSession.id})}">
+			
+							<input type="submit"
+								value="Delete"
+								class="delete-button"
+								onclick="return confirm('Are you sure you want to delete this practice session?');">
+			
+						</form>
+			
+					</td>
+			
+				</tr>
+			
+			</tbody>
+
+		</table>
+
+	</main>
+
+</body>
+</html>

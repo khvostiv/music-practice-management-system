@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login - Piano Piece Tracker</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-page">
+
+	<div class="auth-container">
+
+		<h1>Piano Piece Tracker</h1>
+		<h2>Login</h2>
+
+		<p class="page-description">Login to manage your personal piano
+			repertoire.</p>
+
+		<p class="error-message" th:if="${loginError != null}"
+			th:text="${loginError}"></p>
+
+		<p class="success-message" th:if="${param.logout}">You have been
+			logged out successfully.</p>
+
+		<form method="post" th:action="@{/login}"
+			th:object="${authenticationRequest}">
+
+			<label for="email">Email:</label> <input type="email" id="email"
+				th:field="*{email}" placeholder="Enter your email" required>
+
+			<label for="password">Password:</label> <input type="password"
+				id="password" th:field="*{password}"
+				placeholder="Enter your password" required> <input
+				type="submit" value="Login">
+
+		</form>
+
+		<p class="auth-link">
+			Do not have an account? <a th:href="@{/register}">Register here</a>
+		</p>
+
+	</div>
+
+</body>
+</html>

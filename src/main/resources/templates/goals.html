@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Learning Goals</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+	<header class="main-header">
+		<div>
+			<h1>Piano Piece Tracker</h1>
+			<p>
+				Logged in as: <span th:text="${email}">user@email.com</span>
+			</p>
+		</div>
+
+		<a th:href="@{/pieces}" class="header-link">Back to My Pieces</a>
+	</header>
+
+	<main class="main-container">
+
+		<div class="page-heading">
+			<div>
+				<h2>Learning Goals</h2>
+				<p>Create practice targets and monitor your progress.</p>
+			</div>
+		</div>
+
+		<p class="success-message" th:if="${param.created}">Learning goal
+			was created successfully.</p>
+
+		<p class="success-message" th:if="${param.completed}">Learning
+			goal was completed successfully.</p>
+
+		<p class="success-message" th:if="${param.deleted}">Learning goal
+			was deleted successfully.</p>
+
+		<div class="form-container"
+			th:if="${pieces != null && !pieces.isEmpty()}">
+
+			<h2>Create Learning Goal</h2>
+
+			<form method="post" th:action="@{/goals/save}"
+				th:object="${learningGoalRequest}">
+
+				<label for="pianoPieceId">Piano Piece:</label> <select
+					id="pianoPieceId" th:field="*{pianoPieceId}" required>
+
+					<option value="">Select a piano piece</option>
+
+					<option th:each="piece : ${pieces}" th:value="${piece.id}"
+						th:text="${piece.title}">Clair de Lune</option>
+
+				</select> <label for="targetMinutes">Target Minutes:</label> <input
+					type="number" id="targetMinutes" th:field="*{targetMinutes}"
+					min="1" placeholder="Enter target practice minutes" required>
+
+				<label for="deadline">Deadline:</label> <input type="date"
+					id="deadline" th:field="*{deadline}" required> <input
+					type="submit" value="Create Goal">
+
+			</form>
+
+		</div>
+
+		<div class="empty-message"
+			th:if="${pieces == null || pieces.isEmpty()}">
+
+			<h3>No piano pieces available</h3>
+
+			<p>Add a piano piece before creating a learning goal.</p>
+
+			<a th:href="@{/pieces/new}" class="main-button"> Add Piano Piece
+			</a>
+
+		</div>
+
+		<div class="empty-message" th:if="${goals == null || goals.isEmpty()}">
+
+			<h3>No learning goals yet</h3>
+
+			<p>Create your first learning goal using the form above.</p>
+
+		</div>
+
+		<table th:if="${goals != null && !goals.isEmpty()}">
+
+			<thead>
+				<tr>
+					<th>Piano Piece</th>
+					<th>Progress</th>
+					<th>Target</th>
+					<th>Deadline</th>
+					<th>Status</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				<tr th:each="goal : ${goals}">
+
+					<td th:text="${goal.pianoPieceTitle}">Clair de Lune</td>
+
+					<td th:text="${goal.practicedMinutes + ' minutes'}">30 minutes
+					</td>
+
+					<td th:text="${goal.targetMinutes + ' minutes'}">100 minutes</td>
+
+					<td th:text="${goal.deadline}">2026-08-20</td>
+
+					<td th:text="${goal.completed ? 'Completed' : 'In Progress'}">
+						In Progress</td>
+
+					<td class="action-links">
+
+						<form method="post" class="delete-form" th:if="${!goal.completed}"
+							th:action="@{/goals/complete/{id}(id=${goal.id})}">
+
+							<input type="submit" value="Complete" class="main-button">
+
+						</form>
+
+						<form method="post" class="delete-form"
+							th:action="@{/goals/delete/{id}(id=${goal.id})}">
+
+							<input type="submit" value="Delete" class="delete-button"
+								onclick="return confirm('Are you sure you want to delete this learning goal?');">
+
+						</form>
+
+					</td>
+
+				</tr>
+
+			</tbody>
+
+		</table>
+
+	</main>
+
+</body>
+</html>

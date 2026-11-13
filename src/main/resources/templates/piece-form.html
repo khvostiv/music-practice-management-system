@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Modify Piano Pieces</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+	<header class="main-header">
+
+		<div>
+			<h1>Piano Piece Tracker</h1>
+		</div>
+
+		<a th:href="@{/pieces}" class="header-link"> Back to My Pieces </a>
+
+	</header>
+
+	<main class="form-container">
+
+		<h2
+			th:text="${pianoPiece.id == null
+				? 'Add Piano Piece'
+				: 'Edit Piano Piece'}">
+			Add Piano Piece</h2>
+
+		<form method="post"
+			enctype="multipart/form-data" 
+			th:action="${pianoPiece.id == null}
+				? @{/pieces/save}
+				: @{/pieces/update/{id}(id=${pianoPiece.id})}"
+			th:object="${pianoPiece}">
+
+			<input type="hidden" th:field="*{id}"> <label for="title">Title:</label>
+
+			<input type="text" id="title" th:field="*{title}"
+				placeholder="Enter the piano piece title" required> <label
+				for="composerName">Composer:</label> <input type="text"
+				id="composerName" name="composerName"
+				th:value="${pianoPiece.composer != null ? pianoPiece.composer.name : ''}"
+				placeholder="Enter composer name" required> </select> <label
+				for="genre">Genre:</label> <select id="genre" th:field="*{genre}"
+				required>
+
+				<option value="">Select a genre</option>
+
+				<option th:each="genre : ${genres}" th:value="${genre}"
+					th:text="${genre.displayName}"></option>
+
+			</select> </select> <label for="difficulty">Difficulty:</label> <select id="difficulty"
+				th:field="*{difficulty}" required>
+
+				<option value="">Select difficulty</option>
+
+				<option value="Beginner">Beginner</option>
+
+				<option value="Intermediate">Intermediate</option>
+
+				<option value="Advanced">Advanced</option>
+
+			</select> <label for="learningStatus">Learning Status:</label> <select
+				id="learningStatus" th:field="*{learningStatus}" required>
+
+				<option value="">Select learning status</option>
+
+				<option th:each="status : ${statuses}" th:value="${status}"
+					th:text="${status.displayName}"></option>
+
+			</select> <label for="rating">Rating:</label> <select id="rating"
+				th:field="*{rating}" required>
+
+				<option value="">Select a rating</option>
+
+				<option value="1">1 / 5</option>
+				<option value="2">2 / 5</option>
+				<option value="3">3 / 5</option>
+				<option value="4">4 / 5</option>
+				<option value="5">5 / 5</option>
+
+			</select>
+
+			<label for="sheetMusicFile">Sheet Music PDF:</label>
+			
+			<input type="file"
+				id="sheetMusicFile"
+				name="sheetMusicFile"
+				accept="application/pdf">
+			
+			<p th:if="${pianoPiece.sheetMusicFileName != null}">
+				Current PDF:
+				<span th:text="${pianoPiece.sheetMusicFileName}">
+					sheet-music.pdf
+				</span>
+			</p>
+			<div class="form-buttons">
+
+				<input type="submit"
+					th:value="${pianoPiece.id == null}
+						? 'Add Piano Piece'
+						: 'Save Changes'">
+
+				<a th:href="@{/pieces}" class="cancel-button"> Cancel </a>
+
+			</div>
+
+		</form>
+
+	</main>
+
+</body>
+</html>
