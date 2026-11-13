@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>My Piano Pieces</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+	<div id="studio-shell"></div>
+	<main class="main-container">
+		<div class="page-heading">
+			<div>
+				<h2>My Piano Pieces</h2>
+				<p>Track pieces you want to learn, are currently learning, or have already learned.</p>
+			</div>
+			<div class="page-heading-actions">
+				<a class="main-button" href="dashboard.html">Dashboard</a>
+				<a class="main-button" href="practice.html">Start Practice</a>
+				<a id="addPianoPieceLink" class="main-button" href="piece-form.html">Add Piano Piece</a>
+				<a class="main-button" href="goals.html">Learning Goals</a>
+			</div>
+		</div>
+		<p class="success-message" data-param="created" hidden>Piano piece was added successfully.</p>
+		<div class="toolbar">
+			<input type="search" id="pieceSearch" placeholder="Search by title, composer, or genre" aria-label="Search piano pieces">
+			<div class="filter-pills" role="group" aria-label="Filter by status">
+				<button type="button" class="is-active" data-status-filter="all">All</button>
+				<button type="button" data-status-filter="want_to_learn">Want to Learn</button>
+				<button type="button" data-status-filter="learning">Learning</button>
+				<button type="button" data-status-filter="learned">Learned</button>
+			</div>
+		</div>
+		<div class="piece-grid stagger-in">
+			<article class="piece-card" data-piece-card data-title="Clair de Lune" data-composer="Claude Debussy" data-genre="Nocturne" data-status="LEARNING">
+				<div class="piece-card-top">
+					<div>
+						<h3 class="piece-title">Clair de Lune</h3>
+						<p class="piece-composer">Claude Debussy</p>
+					</div>
+					<span class="stars" aria-label="5 out of 5">
+						<span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+					</span>
+				</div>
+				<div class="piece-meta">
+					<span class="badge">Nocturne</span>
+					<span class="badge badge-Intermediate">Intermediate</span>
+					<span class="badge badge-LEARNING">Learning</span>
+				</div>
+				<div class="piece-actions action-links">
+					<span class="badge">No PDF</span>
+					<a href="piece-form.html">Edit</a>
+					<form method="get" class="delete-form" action="pieces.html">
+						<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this piano piece?');">
+					</form>
+				</div>
+			</article>
+			<article class="piece-card" data-piece-card data-title="Ballade No. 3" data-composer="Frédéric Chopin" data-genre="Ballade" data-status="WANT_TO_LEARN">
+				<div class="piece-card-top">
+					<div>
+						<h3 class="piece-title">Ballade No. 3</h3>
+						<p class="piece-composer">Frédéric Chopin</p>
+					</div>
+					<span class="stars" aria-label="4 out of 5">
+						<span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+					</span>
+				</div>
+				<div class="piece-meta">
+					<span class="badge">Ballade</span>
+					<span class="badge badge-Advanced">Advanced</span>
+					<span class="badge badge-WANT_TO_LEARN">Want to Learn</span>
+				</div>
+				<div class="piece-actions action-links">
+					<span class="badge">No PDF</span>
+					<a href="piece-form.html">Edit</a>
+					<form method="get" class="delete-form" action="pieces.html">
+						<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this piano piece?');">
+					</form>
+				</div>
+			</article>
+			<article class="piece-card" data-piece-card data-title="Prelude in C-sharp Minor" data-composer="Sergei Rachmaninoff" data-genre="Prelude" data-status="LEARNED">
+				<div class="piece-card-top">
+					<div>
+						<h3 class="piece-title">Prelude in C-sharp Minor</h3>
+						<p class="piece-composer">Sergei Rachmaninoff</p>
+					</div>
+					<span class="stars" aria-label="5 out of 5">
+						<span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+					</span>
+				</div>
+				<div class="piece-meta">
+					<span class="badge">Prelude</span>
+					<span class="badge badge-Advanced">Advanced</span>
+					<span class="badge badge-LEARNED">Learned</span>
+				</div>
+				<div class="piece-actions action-links">
+					<span class="badge">No PDF</span>
+					<a href="piece-form.html">Edit</a>
+					<form method="get" class="delete-form" action="pieces.html">
+						<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this piano piece?');">
+					</form>
+				</div>
+			</article>
+		</div>
+		<div class="empty-message" data-filter-empty hidden>
+			<h3>No matching pieces</h3>
+			<p>Try another search or status filter.</p>
+		</div>
+	</main>
+	<a class="demo-chip" href="readme.html">GitHub Pages preview</a>
+	<script src="js/partials.js"></script>
+	<script>StudioPartials.mount("pieces");</script>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>

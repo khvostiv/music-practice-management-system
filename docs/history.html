@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>Practice History</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+	<div id="studio-shell"></div>
+	<main class="main-container">
+		<div class="page-heading">
+			<div>
+				<h2>Practice History</h2>
+				<p>View your completed piano practice sessions.</p>
+			</div>
+			<a class="main-button" href="practice.html">Start Practice</a>
+		</div>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>Piano Piece</th>
+						<th>Started At</th>
+						<th>Ended At</th>
+						<th>Duration</th>
+						<th>Notes</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody class="stagger-in">
+					<tr>
+						<td>Clair de Lune</td>
+						<td>Nov 13, 2026 10:00 AM</td>
+						<td>Nov 13, 2026 10:25 AM</td>
+						<td><span class="duration-pill">25m 0s</span></td>
+						<td class="notes-cell">Worked on the opening voicing and pedal changes.</td>
+						<td class="action-links">
+							<form method="get" class="delete-form" action="history.html">
+								<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this practice session?');">
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>Ballade No. 3</td>
+						<td>Nov 11, 2026 7:15 PM</td>
+						<td>Nov 11, 2026 7:50 PM</td>
+						<td><span class="duration-pill">35m 0s</span></td>
+						<td class="notes-cell">Slow practice in the coda, hands separate.</td>
+						<td class="action-links">
+							<form method="get" class="delete-form" action="history.html">
+								<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this practice session?');">
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
+	<a class="demo-chip" href="readme.html">GitHub Pages preview</a>
+	<script src="js/partials.js"></script>
+	<script>StudioPartials.mount("history");</script>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>

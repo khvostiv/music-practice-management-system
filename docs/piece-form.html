@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>Add Piano Piece</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+	<div id="studio-shell"></div>
+	<main class="form-container">
+		<div class="page-heading">
+			<div>
+				<h2>Add Piano Piece</h2>
+				<p>Give the piece a home in your studio — title, composer, and how it currently feels under your hands.</p>
+			</div>
+		</div>
+		<form method="get" action="pieces.html">
+			<div class="field-group">
+				<label for="title">Title:</label>
+				<input type="text" id="title" name="title" placeholder="Enter the piano piece title" required>
+			</div>
+			<div class="field-group">
+				<label for="composerName">Composer:</label>
+				<input type="text" id="composerName" name="composerName" placeholder="Enter composer name" required>
+			</div>
+			<div class="field-group">
+				<label for="genre">Genre:</label>
+				<select id="genre" name="genre" required>
+					<option value="">Select a genre</option>
+					<option value="BALLADE">Ballade</option>
+					<option value="NOCTURNE">Nocturne</option>
+					<option value="SONATA">Sonata</option>
+					<option value="PRELUDE">Prelude</option>
+					<option value="ETUDE">Etude</option>
+					<option value="WALTZ">Waltz</option>
+				</select>
+			</div>
+			<div class="field-group">
+				<label for="difficulty">Difficulty:</label>
+				<select id="difficulty" name="difficulty" required>
+					<option value="">Select difficulty</option>
+					<option value="Beginner">Beginner</option>
+					<option value="Intermediate">Intermediate</option>
+					<option value="Advanced">Advanced</option>
+				</select>
+			</div>
+			<div class="field-group">
+				<label for="learningStatus">Learning Status:</label>
+				<select id="learningStatus" name="learningStatus" required>
+					<option value="">Select learning status</option>
+					<option value="WANT_TO_LEARN">Want to Learn</option>
+					<option value="LEARNING">Learning</option>
+					<option value="LEARNED">Learned</option>
+				</select>
+			</div>
+			<div class="field-group">
+				<label for="rating">Rating:</label>
+				<select id="rating" name="rating" required>
+					<option value="">Select a rating</option>
+					<option value="1">1 / 5</option>
+					<option value="2">2 / 5</option>
+					<option value="3">3 / 5</option>
+					<option value="4">4 / 5</option>
+					<option value="5">5 / 5</option>
+				</select>
+			</div>
+			<div class="field-group">
+				<label for="sheetMusicFile">Sheet Music PDF:</label>
+				<div class="file-drop" data-file-drop tabindex="0" role="button" aria-label="Upload sheet music PDF">
+					<input type="file" id="sheetMusicFile" name="sheetMusicFile" accept="application/pdf">
+					<span class="file-drop-title">Drop a PDF here, or click to browse</span>
+					<p class="file-drop-hint" data-file-name>PDF up to 20MB</p>
+				</div>
+			</div>
+			<div class="form-buttons">
+				<input type="submit" value="Add Piano Piece">
+				<a href="pieces.html" class="cancel-button">Cancel</a>
+			</div>
+		</form>
+	</main>
+	<a class="demo-chip" href="readme.html">GitHub Pages preview</a>
+	<script src="js/partials.js"></script>
+	<script>StudioPartials.mount("pieces");</script>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>

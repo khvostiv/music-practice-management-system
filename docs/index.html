@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>Login - Piano Piece Tracker</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body class="auth-page">
+	<div class="staff-backdrop" aria-hidden="true">
+		<div class="staff-lines"></div>
+		<div class="clef-watermark">
+			<svg viewBox="0 0 80 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M42 28c8 6 16 16 16 30 0 22-20 34-20 52 0 10 7 18 16 18 14 0 22-14 22-30" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+				<path d="M38 20c0 70-28 88-28 112 0 16 12 28 28 28 22 0 36-18 36-40" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+				<circle cx="32" cy="154" r="16" fill="currentColor"/>
+				<circle cx="48" cy="22" r="8" fill="currentColor"/>
+			</svg>
+		</div>
+	</div>
+	<div class="auth-shell">
+		<section class="auth-hero">
+			<div>
+				<p class="auth-kicker">Piano Piece Tracker</p>
+				<h1>Your repertoire, in one calm studio.</h1>
+				<p>Log in to keep pieces, practice sessions, and learning goals together — like a notebook that never loses your place.</p>
+			</div>
+			<div class="piano-keys" aria-hidden="true">
+				<span></span><span></span><span></span><span></span><span></span>
+				<span></span><span></span><span></span><span></span><span></span>
+			</div>
+		</section>
+		<section class="auth-panel">
+			<div class="auth-container">
+				<h1>Piano Piece Tracker</h1>
+				<h2>Welcome back</h2>
+				<p class="page-description">Login to manage your personal piano repertoire.</p>
+				<form method="get" action="pieces.html">
+					<div class="field-group">
+						<label for="email">Email:</label>
+						<input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email" required>
+					</div>
+					<div class="field-group password-field">
+						<label for="password">Password:</label>
+						<input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+						<button type="button" class="password-toggle" data-password-toggle="password" aria-label="Show password">Show</button>
+					</div>
+					<input type="submit" value="Login">
+				</form>
+				<p class="auth-link">
+					Do not have an account? <a href="register.html">Register here</a>
+				</p>
+				<p class="auth-link"><a href="readme.html">Read the project README</a></p>
+			</div>
+		</section>
+	</div>
+	<a class="demo-chip" href="readme.html">GitHub Pages preview</a>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>

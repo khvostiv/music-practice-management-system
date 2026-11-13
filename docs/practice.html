@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>Practice Timer</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+	<div id="studio-shell"></div>
+	<main class="main-container">
+		<div class="page-heading">
+			<div>
+				<h2>Practice Timer</h2>
+				<p>Select a piano piece and start your practice session.</p>
+			</div>
+			<div class="page-heading-actions">
+				<a class="main-button" href="history.html">Practice History</a>
+			</div>
+		</div>
+		<p class="success-message" data-param="created" hidden>Practice session was saved successfully.</p>
+		<form method="get" action="practice.html" id="practiceForm" onsubmit="return stopPractice()">
+			<div class="practice-layout">
+				<div>
+					<div class="field-group">
+						<label for="pianoPieceId">Piano Piece:</label>
+						<select id="pianoPieceId" name="pianoPieceId" required>
+							<option value="">Select a piano piece</option>
+							<option value="1">Clair de Lune</option>
+							<option value="2">Ballade No. 3</option>
+							<option value="3">Prelude in C-sharp Minor</option>
+						</select>
+					</div>
+					<div class="field-group">
+						<label for="notes">Practice Notes:</label>
+						<textarea id="notes" name="notes" rows="5" placeholder="What did you practise today?"></textarea>
+					</div>
+				</div>
+				<div class="timer-stage is-idle">
+					<div class="timer-orbit">
+						<div class="timer-ring" aria-hidden="true"></div>
+						<h2 id="timer">00:00:00</h2>
+					</div>
+					<p class="timer-hint" id="timerHint">Choose a piece, press start, and the studio clock will keep time for you.</p>
+				</div>
+			</div>
+			<input type="hidden" id="startedAt" name="startedAt">
+			<input type="hidden" id="endedAt" name="endedAt">
+			<div class="form-buttons">
+				<input type="button" id="startButton" value="Start Practice" onclick="startPractice()">
+				<input type="submit" id="stopButton" value="Stop and Save" disabled>
+				<a href="pieces.html" class="cancel-button">Cancel</a>
+			</div>
+		</form>
+	</main>
+	<a class="demo-chip" href="readme.html">GitHub Pages preview</a>
+	<script src="js/partials.js"></script>
+	<script>StudioPartials.mount("practice");</script>
+	<script src="js/practice.js"></script>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>README - Piano Piece Tracker</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+	<div id="studio-shell"></div>
+	<main class="main-container readme-body">
+		<div class="readme-hero">
+			<div>
+				<h2>Piano Piece Tracker</h2>
+				<p>A Spring Boot studio for your piano repertoire: pieces, sheet music, timed practice, and learning goals. This GitHub Pages site is a clickable preview of the redesigned UI.</p>
+				<div class="page-heading-actions">
+					<a class="main-button" href="index.html">Open the app</a>
+					<a class="cancel-button" href="https://github.com/khvostiv/music-practice-management-system">View the repository</a>
+				</div>
+			</div>
+			<img src="assets/login.png" alt="Login page of Piano Piece Tracker">
+		</div>
+
+		<section class="readme-section">
+			<h3>What this project does</h3>
+			<ul>
+				<li>Register and log in to a personal repertoire.</li>
+				<li>Add, edit, and delete piano pieces with composer, genre, difficulty, learning status, and rating.</li>
+				<li>Attach sheet-music PDFs.</li>
+				<li>Time a practice session and keep notes.</li>
+				<li>Set learning goals with a target number of minutes and a deadline.</li>
+				<li>See totals on the practice dashboard.</li>
+			</ul>
+		</section>
+
+		<section class="readme-section">
+			<h3>Pages in this preview</h3>
+			<div class="readme-grid">
+				<figure class="readme-shot">
+					<img src="assets/pieces.png" alt="Pieces library">
+					<figcaption>Pieces library with search and status filters</figcaption>
+				</figure>
+				<figure class="readme-shot">
+					<img src="assets/dashboard.png" alt="Dashboard">
+					<figcaption>Dashboard stats for pieces, time, and goals</figcaption>
+				</figure>
+				<figure class="readme-shot">
+					<img src="assets/practice.png" alt="Practice timer">
+					<figcaption>Practice timer with a studio clock</figcaption>
+				</figure>
+			</div>
+		</section>
+
+		<section class="readme-section">
+			<h3>Run the real Spring Boot app</h3>
+			<p>GitHub Pages can only host static files, so login here is a preview. The live Java app still needs MySQL (or Docker) on port 50000.</p>
+			<pre class="code-block">git clone https://github.com/khvostiv/music-practice-management-system.git
+cd music-practice-management-system
+docker compose up --build</pre>
+			<p>Then open <strong>http://localhost:50000</strong>.</p>
+			<p>Or with Maven and a local MySQL database named <code>ajf</code>:</p>
+			<pre class="code-block">./mvnw spring-boot:run</pre>
+		</section>
+
+		<section class="readme-section">
+			<h3>Project layout</h3>
+			<ul>
+				<li><code>src/main/java</code> — Spring Boot controllers, security, services, and JPA entities</li>
+				<li><code>src/main/resources/templates</code> — Thymeleaf pages</li>
+				<li><code>src/main/resources/static</code> — CSS and JavaScript</li>
+				<li><code>docs/</code> — this GitHub Pages preview</li>
+			</ul>
+		</section>
+	</main>
+	<script src="js/partials.js"></script>
+	<script>StudioPartials.mount("readme");</script>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1612">
+<title>Learning Goals</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+	<div id="studio-shell"></div>
+	<main class="main-container">
+		<div class="page-heading">
+			<div>
+				<h2>Learning Goals</h2>
+				<p>Create practice targets and monitor your progress.</p>
+			</div>
+		</div>
+		<p class="success-message" data-param="created" hidden>Learning goal was created successfully.</p>
+		<p class="success-message" data-param="completed" hidden>Learning goal was completed successfully.</p>
+		<div class="goal-layout">
+			<div class="panel">
+				<h2>Create Learning Goal</h2>
+				<form method="get" action="goals.html">
+					<div class="field-group">
+						<label for="pianoPieceId">Piano Piece:</label>
+						<select id="pianoPieceId" name="pianoPieceId" required>
+							<option value="">Select a piano piece</option>
+							<option value="1">Clair de Lune</option>
+							<option value="2">Ballade No. 3</option>
+							<option value="3">Prelude in C-sharp Minor</option>
+						</select>
+					</div>
+					<div class="field-group">
+						<label for="targetMinutes">Target Minutes:</label>
+						<input type="number" id="targetMinutes" name="targetMinutes" min="1" placeholder="Enter target practice minutes" required>
+					</div>
+					<div class="field-group">
+						<label for="deadline">Deadline:</label>
+						<input type="date" id="deadline" name="deadline" required>
+					</div>
+					<input type="submit" value="Create Goal">
+				</form>
+			</div>
+			<div class="goal-list stagger-in">
+				<article class="goal-card">
+					<div class="goal-head">
+						<div>
+							<h3>Clair de Lune</h3>
+							<p class="goal-meta">
+								<span>Dec 31, 2026</span>
+								<span class="badge">In Progress</span>
+							</p>
+						</div>
+					</div>
+					<div class="meter" role="progressbar" aria-valuenow="25" aria-valuemax="120">
+						<div class="meter-fill" style="width: 21%"></div>
+					</div>
+					<p class="goal-meta">
+						<span>25 minutes practised</span>
+						<span>Target 120 minutes</span>
+					</p>
+					<div class="action-links">
+						<form method="get" class="delete-form" action="goals.html">
+							<input type="submit" value="Complete" class="main-button">
+						</form>
+						<form method="get" class="delete-form" action="goals.html">
+							<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this learning goal?');">
+						</form>
+					</div>
+				</article>
+				<article class="goal-card is-complete">
+					<div class="goal-head">
+						<div>
+							<h3>Prelude in C-sharp Minor</h3>
+							<p class="goal-meta">
+								<span>Oct 12, 2026</span>
+								<span class="badge">Completed</span>
+							</p>
+						</div>
+					</div>
+					<div class="meter" role="progressbar" aria-valuenow="180" aria-valuemax="180">
+						<div class="meter-fill" style="width: 100%"></div>
+					</div>
+					<p class="goal-meta">
+						<span>180 minutes practised</span>
+						<span>Target 180 minutes</span>
+					</p>
+					<div class="action-links">
+						<form method="get" class="delete-form" action="goals.html">
+							<input type="submit" value="Delete" class="delete-button" onclick="return confirm('Are you sure you want to delete this learning goal?');">
+						</form>
+					</div>
+				</article>
+			</div>
+		</div>
+	</main>
+	<a class="demo-chip" href="readme.html">GitHub Pages preview</a>
+	<script src="js/partials.js"></script>
+	<script>StudioPartials.mount("goals");</script>
+	<script src="js/app.js" defer></script>
+	<script src="js/demo.js" defer></script>
+</body>
+</html>
