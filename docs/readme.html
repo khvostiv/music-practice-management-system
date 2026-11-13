@@ -24,6 +24,18 @@
 		</div>
 
 		<section class="readme-section">
+			<h3>One-minute video tour</h3>
+			<div class="video-tour">
+				<a href="https://gitdiagram.com/khvostiv/music-practice-management-system/video">
+					<img src="https://gitdiagram.com/video-badge.svg" alt="Watch a one-minute video tour of music-practice-management-system">
+				</a>
+				<a href="https://gitdiagram.com/khvostiv/music-practice-management-system/video">
+					<img src="https://gitdiagram.com/api/video/file?username=khvostiv&amp;repo=music-practice-management-system&amp;format=poster" alt="khvostiv/music-practice-management-system, explained in a one-minute video">
+				</a>
+			</div>
+		</section>
+
+		<section class="readme-section">
 			<h3>What this project does</h3>
 			<ul>
 				<li>Register and log in to a personal repertoire.</li>
@@ -51,6 +63,111 @@
 					<figcaption>Practice timer with a studio clock</figcaption>
 				</figure>
 			</div>
+		</section>
+
+		<section class="readme-section">
+			<h3>How the app is built</h3>
+			<p>This is a layered Spring Boot 4 application on Java 21. The browser talks to Thymeleaf pages and to a JSON API under <code>/api/v1/</code>. Both fronts share the same security, services, and MySQL database. Sheet-music PDFs go to Amazon S3.</p>
+			<div class="diagram mermaid">
+flowchart LR
+  subgraph Client["Browser"]
+    UI["Thymeleaf pages"]
+    APIClient["JSON / Swagger"]
+  end
+  subgraph App["Spring Boot :50000"]
+    Pages["Page controllers"]
+    Rest["REST controllers"]
+    Filter["JWT filter"]
+    Services["Services"]
+    Repos["JPA repositories"]
+  end
+  subgraph Data["Data stores"]
+    MySQL[(MySQL)]
+    S3["Amazon S3"]
+  end
+  UI --> Pages
+  APIClient --> Rest
+  Pages --> Filter
+  Rest --> Filter
+  Filter --> Services
+  Pages --> Services
+  Rest --> Services
+  Services --> Repos
+  Services --> S3
+  Repos --> MySQL
+			</div>
+			<h3>Request path</h3>
+			<ol>
+				<li>The browser hits a URL such as <code>GET /pieces</code> or <code>POST /practice/save</code>.</li>
+				<li>Spring Security runs first. Login, register, CSS, and JS are public; everything else needs a user.</li>
+				<li>The JWT filter reads the httpOnly <code>jwt</code> cookie (or a Bearer header), checks the token, and loads the user by email.</li>
+				<li>A controller calls a service. The service uses a repository scoped to that user.</li>
+				<li>Page controllers return a Thymeleaf template. REST controllers return JSON.</li>
+			</ol>
+			<div class="diagram mermaid">
+sequenceDiagram
+  actor User
+  participant Browser
+  participant Security as JWT filter
+  participant Auth as AuthenticationService
+  participant Pages as Page controller
+  participant DB as MySQL
+  User->>Browser: Submit /login
+  Browser->>Auth: POST /login
+  Auth->>DB: Find user, check password
+  Auth->>Browser: Set-Cookie jwt
+  Browser->>Security: GET /pieces
+  Security->>Pages: Authenticated request
+  Pages->>DB: This user's pieces
+  DB-->>Browser: pieces.html
+			</div>
+			<h3>Data model</h3>
+			<p>A user owns piano pieces, practice sessions, and learning goals. Each piece has a composer and optional sheet music in S3. Practice time feeds history and goal progress.</p>
+			<div class="diagram mermaid">
+erDiagram
+  USER ||--o{ PIANO_PIECE : owns
+  USER ||--o{ PRACTICE_SESSION : logs
+  USER ||--o{ LEARNING_GOAL : sets
+  COMPOSER ||--o{ PIANO_PIECE : wrote
+  PIANO_PIECE ||--o{ PRACTICE_SESSION : practised
+  PIANO_PIECE ||--o{ LEARNING_GOAL : targets
+			</div>
+			<table class="layer-table">
+				<thead>
+					<tr>
+						<th>Layer</th>
+						<th>Where</th>
+						<th>Role</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Pages</td>
+						<td>Home, Practice, Goals, Dashboard controllers</td>
+						<td>HTML forms and lists</td>
+					</tr>
+					<tr>
+						<td>REST</td>
+						<td><code>/api/v1/</code> controllers</td>
+						<td>JSON for auth, pieces, sessions</td>
+					</tr>
+					<tr>
+						<td>Security</td>
+						<td><code>config</code></td>
+						<td>JWT cookie, BCrypt, filter chain</td>
+					</tr>
+					<tr>
+						<td>Services</td>
+						<td><code>services</code></td>
+						<td>Business rules and S3 uploads</td>
+					</tr>
+					<tr>
+						<td>Data</td>
+						<td><code>beans</code> + repositories</td>
+						<td>JPA entities in MySQL</td>
+					</tr>
+				</tbody>
+			</table>
 		</section>
 
 		<section class="readme-section">
@@ -83,5 +200,13 @@ docker compose up --build</pre>
 	<script>StudioPartials.mount("readme");</script>
 	<script src="js/app.js" defer></script>
 	<script src="js/demo.js" defer></script>
+	<script type="module">
+		import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+		mermaid.initialize({
+			startOnLoad: true,
+			theme: "neutral",
+			securityLevel: "loose"
+		});
+	</script>
 </body>
 </html>

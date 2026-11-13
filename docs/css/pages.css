@@ -47,7 +47,8 @@
 	margin-top: 0;
 }
 
-.readme-section ul {
+.readme-section ul,
+.readme-section ol {
 	margin: 0;
 	padding-left: 1.2em;
 	color: var(--ink-soft);
@@ -89,6 +90,54 @@
 	font-family: var(--mono);
 	font-size: 0.85rem;
 	line-height: 1.5;
+}
+
+.video-tour {
+	display: grid;
+	gap: 12px;
+	justify-items: start;
+}
+
+.video-tour img {
+	max-width: min(100%, 640px);
+	border-radius: 16px;
+	box-shadow: var(--shadow-soft);
+}
+
+.diagram {
+	margin-top: 12px;
+	padding: 12px;
+	border-radius: 16px;
+	background: #fbf8f2;
+	overflow-x: auto;
+}
+
+.readme-section p + h3,
+.readme-section ul + h3 {
+	margin-top: 22px;
+}
+
+.layer-table {
+	width: 100%;
+	min-width: 0;
+	border-collapse: collapse;
+	margin-top: 12px;
+}
+
+.layer-table th,
+.layer-table td {
+	text-align: left;
+	padding: 10px 8px;
+	border-bottom: 1px solid rgba(26, 22, 18, 0.1);
+	font-size: 0.92rem;
+}
+
+.layer-table th {
+	background: #1a1612;
+	color: #fbf8f2;
+	font-size: 0.75rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
 }
 
 @media (max-width: 800px) {
